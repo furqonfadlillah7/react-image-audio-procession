@@ -9,11 +9,13 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "audiobuffer-to-wav": "^1.0.0",
+    "bootstrap": "^5.3.0",
     "browser-image-compression": "^2.0.2",
     "howler": "^2.2.3",
     "lamejs": "zhuker/lamejs",
     "opus-media-recorder": "^0.8.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.7.4",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"

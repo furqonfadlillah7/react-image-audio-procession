@@ -1,39 +1,13 @@
 import React, { useState } from "react";
-import imageCompression from "browser-image-compression";
 import lamejs from "lamejs";
 
-const App = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+const Audio = () => {
   const [selectedAudio, setSelectedAudio] = useState(null);
-  const [processImage, setProcessImage] = useState(null);
   const [processAudio, setProcessAudio] = useState(null);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setSelectedImage(file);
-    setProcessAudio(null);
-  };
 
   const handleAudioUpload = (e) => {
     const file = e.target.files[0];
     setSelectedAudio(file);
-    setSelectedImage(null);
-  };
-
-  const handleImageResize = async () => {
-    if (selectedImage) {
-      try {
-        const options = {
-          maxSizeMB: 50,
-          maxWidthOrHeight: 300,
-          useWebWorker: true,
-        };
-        const compressedImage = await imageCompression(selectedImage, options);
-        setProcessImage(compressedImage);
-      } catch (error) {
-        console.log(error);
-      }
-    }
   };
 
   const compressAudio = (audioBuffer) => {
@@ -87,15 +61,6 @@ const App = () => {
     }
   };
 
-  const handleDownloadImage = () => {
-    const url = URL.createObjectURL(processImage);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "resized_image.jpg";
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
   const handleDownloadAudio = () => {
     const url = URL.createObjectURL(processAudio);
     const link = document.createElement("a");
@@ -107,43 +72,38 @@ const App = () => {
 
   return (
     <div>
-      <h1>Image and Audio Processing</h1>
-      <div>
-        <h3>Image Processing</h3>
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
-        <button onClick={handleImageResize}>Resize this Image</button>
-        {processImage && (
-          <div>
-            <h4>Process Image</h4>
-            <img src={URL.createObjectURL(processImage)} alt="Result" />
-            <button onClick={handleDownloadImage}>Download this Image</button>
-          </div>
-        )}
+      <div className="text-center">
+        <h1>Audio Compression</h1>
+        <br></br>
       </div>
-      <div>
-        <h3>Audio Processing</h3>
-        <input type="file" accept="audio/*" onChange={handleAudioUpload} />
-        {selectedAudio && (
-          <audio controls>
-            <source src={URL.createObjectURL(selectedAudio)} type="audio/mp3" />
-          </audio>
-        )}
-        <button onClick={handleAudioCompression}>Compress Audio</button>
-        {processAudio && (
-          <div>
-            <h4>Processed Audio</h4>
+      <div className="d-flex justify-content-center">
+        <div className="d-flex-table">
+          <input type="file" accept="audio/*" onChange={handleAudioUpload} />
+          {selectedAudio && (
             <audio controls>
               <source
-                src={URL.createObjectURL(processAudio)}
+                src={URL.createObjectURL(selectedAudio)}
                 type="audio/mp3"
               />
             </audio>
-            <button onClick={handleDownloadAudio}>Download Audio</button>
-          </div>
-        )}
+          )}
+          <button onClick={handleAudioCompression}>Compress Audio</button>
+          {processAudio && (
+            <div>
+              <h4>Processed Audio</h4>
+              <audio controls>
+                <source
+                  src={URL.createObjectURL(processAudio)}
+                  type="audio/mp3"
+                />
+              </audio>
+              <button onClick={handleDownloadAudio}>Download Audio</button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default App;
+export default Audio;
